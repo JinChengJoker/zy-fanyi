@@ -1,11 +1,17 @@
 {
   "name": "zy-fanyi",
-  "version": "1.0.0",
-  "main": "src/index.ts",
-  "license": "MIT",
-  "scripts": {
-    "dev": "ts-node-dev src/cli.ts"
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "bin": {
+    "fanyi": "dist/cli.js"
   },
+  "files": [
+    "dist/**/*.js"
+  ],
+  "scripts": {
+    "start": "ts-node-dev src/cli.ts"
+  },
+  "license": "MIT",
   "dependencies": {
     "commander": "^5.1.0",
     "js-sha256": "^0.9.0"
