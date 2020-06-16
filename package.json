@@ -1,10 +1,10 @@
 {
   "name": "zy-fanyi",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev cli.ts"
+    "dev": "ts-node-dev src/cli.ts"
   },
   "dependencies": {
     "commander": "^5.1.0",

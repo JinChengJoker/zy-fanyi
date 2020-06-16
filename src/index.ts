@@ -3,7 +3,11 @@ import * as querystring from "querystring";
 import {sha256} from "js-sha256";
 import {appKey, key} from './private';
 
-const errorMap = {
+type ErrorMap = {
+  [key: string]: string
+}
+
+const errorMap: ErrorMap = {
   101: '缺少必填的参数',
   102: '不支持的语言类型',
   103: '翻译文本过长',
@@ -35,7 +39,7 @@ const truncate = (q: string) => {
   return q.substring(0, 10) + len + q.substring(len - 10, len);
 }
 
-const translate = (text) => {
+const translate = (text: string) => {
   const salt = new Date().getTime();
   const curtime = Math.round(new Date().getTime() / 1000);
   const str = appKey + truncate(text) + salt + curtime + key;
@@ -50,19 +54,19 @@ const translate = (text) => {
   })
 
   const request = https.request(options, (response) => {
-    const chucks = []
+    const chucks: Buffer[] = []
     response.on('data', (chunk) => {
       chucks.push(chunk)
     });
     response.on('end', () => {
       const dataString = Buffer.concat(chucks).toString()
-      type translationResult = {
+      type TranslationResult = {
         errorCode: string
-        translation?: [string]
+        translation?: string[]
       }
-      const data: translationResult = JSON.parse(dataString)
-      if(data.errorCode === '0') {
-        data.translation.map(item => console.log(item))
+      const data: TranslationResult = JSON.parse(dataString)
+      if (data.errorCode === '0') {
+        data.translation && data.translation.map(item => console.log(item))
         process.exit(0);
       } else {
         console.error(errorMap[data.errorCode] || '翻译失败');
